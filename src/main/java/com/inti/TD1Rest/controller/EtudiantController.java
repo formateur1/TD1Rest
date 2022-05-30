@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.inti.TD1Rest.model.Ecole;
 import com.inti.TD1Rest.model.Etudiant;
+import com.inti.TD1Rest.repository.EcoleRepository;
 import com.inti.TD1Rest.repository.EtudiantRepository;
 
 @RestController
@@ -22,6 +24,9 @@ public class EtudiantController
 {
 	@Autowired
 	EtudiantRepository etudiantRepository;
+	
+	@Autowired
+	EcoleRepository ecoleRepository;
 	
 	@GetMapping("/students")
 	public ResponseEntity<List<Etudiant>> getAllStudents()
@@ -53,6 +58,18 @@ public class EtudiantController
 		etudiantRepository.save(e1);
 		
 		return "The student : " + e1 + " has been updated";
+	}
+	
+	@PutMapping("/updateStudentWithSchool/{idEtudiant}/{idEcole}")
+	public String updateStudentWithSchool(@RequestBody Etudiant etudiant, @PathVariable int idEtudiant, @PathVariable int idEcole)
+	{
+		Ecole ecole = ecoleRepository.getReferenceById(idEcole);
+		
+		etudiant.setEcole(ecole);
+		
+		etudiantRepository.save(etudiant);
+		
+		return "The student : " + etudiant + " has been updated";
 	}
 	
 	@DeleteMapping("/deleteStudent")
