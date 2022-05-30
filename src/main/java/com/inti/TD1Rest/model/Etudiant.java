@@ -1,10 +1,14 @@
 package com.inti.TD1Rest.model;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -34,6 +38,13 @@ public class Etudiant
 	@JoinColumn(name = "idEcole")
 	@JsonIgnore
 	Ecole ecole;
+	
+	@ManyToMany
+	@JoinTable(name = "Professeur_Etudiant",
+				joinColumns = @JoinColumn(name = "idEtu"),
+				inverseJoinColumns = @JoinColumn(name = "idProf"))
+	@JsonIgnore
+	List<Professeur> listprProfesseurs;
 	
 	public Etudiant(String nom, String prenom, String email, String telephone, String anneeEtude)
 	{
