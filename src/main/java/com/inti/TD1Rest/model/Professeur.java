@@ -9,11 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,40 +21,35 @@ import lombok.NoArgsConstructor;
 @Table
 @Data
 @NoArgsConstructor @AllArgsConstructor
-public class Ecole
+public class Professeur
 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String nom;
-	private String adresse;
-	private String cp;
-	private String ville;
+	private String prenom;
+	private double salaire;
 	
-	@OneToMany(mappedBy = "ecole")
+	@ManyToMany
+	@JoinTable(name = "Professeur_Etudiant",
+				joinColumns = @JoinColumn(name = "idProf"),
+				inverseJoinColumns = @JoinColumn(name = "idEtu"))
 	@JsonIgnore
-	List<Etudiant> listeEtudiants;
+	List<Etudiant> lisEtudiants;
 	
 	@ManyToMany
 	@JoinTable(name = "Professeur_Ecole",
-				joinColumns = @JoinColumn(name = "idEcole"),
-				inverseJoinColumns = @JoinColumn(name = "idProf"))
+				joinColumns = @JoinColumn(name = "idProf"),
+				inverseJoinColumns = @JoinColumn(name = "idEcole"))
 	@JsonIgnore
-	List<Professeur> listProfesseurs;
+	List<Ecole> lisEcoles;
 	
-	public Ecole(String nom, String adresse, String cp, String ville)
+	public Professeur(String nom, String prenom, double salaire)
 	{
 		super();
 		this.nom = nom;
-		this.adresse = adresse;
-		this.cp = cp;
-		this.ville = ville;
-	}
-
-	@Override
-	public String toString()
-	{
-		return "Ecole [id=" + id + ", nom=" + nom + ", adresse=" + adresse + ", cp=" + cp + ", ville=" + ville + "]";
+		this.prenom = prenom;
+		this.salaire = salaire;
 	}
 	
 	
