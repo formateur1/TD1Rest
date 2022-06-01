@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.inti.TD1Rest.model.Ecole;
 import com.inti.TD1Rest.model.Professeur;
 import com.inti.TD1Rest.repository.EcoleRepository;
 import com.inti.TD1Rest.repository.ProfesseurRepository;
@@ -55,6 +54,12 @@ public class ProfesseurController
 	{
 		professeurRepository.deleteById(id);
 		return "Professeur deleted";
+	}
+	
+	@GetMapping("/sortProfSalaireBySchoolId/{id}")
+	public List<Professeur> getSortedProfSalaireBySchoolId(@PathVariable int id)
+	{
+		return professeurRepository.sortProfSalaireBySchoolId(id);
 	}
 
 }
