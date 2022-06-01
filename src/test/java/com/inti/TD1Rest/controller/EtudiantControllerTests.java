@@ -66,4 +66,17 @@ public class EtudiantControllerTests
 		}
 
 	}
+	
+	@Test
+	public void testGetAllStudentsInLyon() {
+		try
+		{
+			mockMvc.perform(get("/studentsInLyon"))
+				.andExpect(status().isOk());
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
 }
